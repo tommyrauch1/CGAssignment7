@@ -24,6 +24,8 @@ var zPos = 10.0;  //position of Eye
 var theta  = 0.0; //rotation for eye position
 var eye;
 
+var option;
+
 var modelViewMatrix;
 var modelViewMatrixLoc;
 
@@ -38,13 +40,19 @@ var texCoordsArray = [];
 function loadPoints(points,texture) {
     //load the vertex positions and texture positions here
 
-    points.push(vec4(-6.0, 0 , 10, 1));
+    points.push(vec4(-6.0, 0 , 10, 1));//brick corner
     texture.push(vec2(0,0));
-    points.push(vec4(-6.0 , 0 , 0, 1));
+    points.push(vec4(-6.0, 0, 10, 1));
+    texture.push(vec2(0,0));
+    points.push(vec4(0, 0, 10, 1));
+    texture.push(vec2(0, 0.5));
+    points.push(vec4(0, 0, 5, 1));
+    texture.push(vec2(0.5, 0.5));
+    points.push(vec4(-6.0 , 0 , 0, 1));//floor corner
     texture.push(vec2(0, 1));
-    points.push(vec4(6.0 , 0 , 0, 1));
+    points.push(vec4(6.0 , 0 , 0, 1));//painting corner
     texture.push(vec2(1, 1));
-
+    
 
 }
 
@@ -57,11 +65,16 @@ function configureTexture(image) {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 
         gl.RGBA, gl.UNSIGNED_BYTE, image);
     gl.generateMipmap( gl.TEXTURE_2D );
-    
-    //point sampling
-    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
-    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
-
+     if(option == 0) //point sampling
+        {
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        }
+        else if(option = 1) //mip map filtering
+        {
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        }
 }
 
 onload = function init()  {
@@ -99,6 +112,18 @@ onload = function init()  {
 
     modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
+
+    document.getElementById("filtering").onclick = function(event) {
+       switch(event.target.index){
+        case 0:
+            option = 0;
+            break;
+        case 1:
+            option = 1;
+            break;
+       }
+
+    }
 
     //establish texture
     var image = document.getElementById("texImage");
