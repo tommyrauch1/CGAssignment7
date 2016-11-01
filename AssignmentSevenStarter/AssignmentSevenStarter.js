@@ -41,17 +41,29 @@ function loadPoints(points,texture) {
     //load the vertex positions and texture positions here
 
     points.push(vec4(-6.0, 0 , 10, 1));//brick corner
-    texture.push(vec2(0,0));
-    points.push(vec4(-6.0, 0, 10, 1));
-    texture.push(vec2(0,0));
-    points.push(vec4(0, 0, 10, 1));
-    texture.push(vec2(0, 0.5));
-    points.push(vec4(0, 0, 5, 1));
-    texture.push(vec2(0.5, 0.5));
+    texture.push(vec2(0,.5));
     points.push(vec4(-6.0 , 0 , 0, 1));//floor corner
     texture.push(vec2(0, 1));
-    points.push(vec4(6.0 , 0 , 0, 1));//painting corner
-    texture.push(vec2(1, 1));
+    points.push(vec4(6, 0, 0, 1));
+    texture.push(vec2(0.5, 1));
+
+
+    points.push(vec4(-6.0, 0 , 10, 1));//brick corner
+    texture.push(vec2(0,.5));
+    points.push(vec4(6, 0, 0, 1));
+    texture.push(vec2(0.5, 1));
+
+
+    points.push(vec4(6.0 , 0 , 10, 1));//floor corner
+    texture.push(vec2(.5, .5));
+
+
+    // points.push(vec4(0, 0, 5, 1));
+    // texture.push(vec2(0.5, 0.5));
+    // points.push(vec4(-6.0 , 0 , 0, 1));//floor corner
+    // texture.push(vec2(0, 1));
+    // points.push(vec4(6.0 , 0 , 0, 1));//painting corner
+    // texture.push(vec2(1, 1));
     
 
 }
