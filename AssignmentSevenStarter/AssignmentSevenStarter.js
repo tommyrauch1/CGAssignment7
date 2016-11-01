@@ -1,7 +1,6 @@
-//name: put your name here
+//name: Tommy Rauch
 //description: Assignment 7
-//proposed points: If I neglect to change this comment and the name above, I agree that I will
-// automatically be deducted 1 point (out of 15)
+//proposed points: 17/20, did not use my own textures and answers to questions aren't perfect.
 // 
 // key bindings are set so that pressing 'W' will make the eye position move in z direction
 //                                       'S' will make the eye position move in -z direction
@@ -24,7 +23,7 @@ var zPos = 10.0;  //position of Eye
 var theta  = 0.0; //rotation for eye position
 var eye;
 
-var option;
+var option = 0;
 
 var modelViewMatrix;
 var modelViewMatrixLoc;
@@ -52,19 +51,79 @@ function loadPoints(points,texture) {
     texture.push(vec2(0,.5));
     points.push(vec4(6, 0, 0, 1));
     texture.push(vec2(0.5, 1));
-
-
     points.push(vec4(6.0 , 0 , 10, 1));//floor corner
     texture.push(vec2(.5, .5));
 
+    points.push(vec4(-6.0, 0, 0, 1));
+    texture.push(vec2(0, 0));
+    points.push(vec4(-6, 10, 0, 1));
+    texture.push(vec2(0, .5));
+    points.push(vec4(6, 10, 0, 1));
+    texture.push(vec2(.5, .5));
 
-    // points.push(vec4(0, 0, 5, 1));
-    // texture.push(vec2(0.5, 0.5));
-    // points.push(vec4(-6.0 , 0 , 0, 1));//floor corner
-    // texture.push(vec2(0, 1));
-    // points.push(vec4(6.0 , 0 , 0, 1));//painting corner
-    // texture.push(vec2(1, 1));
-    
+    points.push(vec4(-6, 0,0,1));
+    texture.push(vec2(.5,.5));
+    points.push(vec4(6,0,0,1));
+    texture.push(vec2(0, .5));
+    points.push(vec4(6, 10, 0, 1));
+    texture.push(vec2(0,0));
+
+    points.push(vec4(6, 0,0,1));
+    texture.push(vec2(0,0));
+    points.push(vec4(6,10,0,1));
+    texture.push(vec2(0, .5));
+    points.push(vec4(6, 10, 10, 1));
+    texture.push(vec2(.5,.5));
+
+    points.push(vec4(6, 0,0,1));
+    texture.push(vec2(.5,.5));
+    points.push(vec4(6,0,10,1));
+    texture.push(vec2(0, .5));
+    points.push(vec4(6, 10, 10, 1));
+    texture.push(vec2(0,0));
+
+    points.push(vec4(-6, 0, 10, 1));
+    texture.push(vec2(0,0));
+    points.push(vec4(-6, 10, 10, 1));
+    texture.push(vec2(0, .5));
+    points.push(vec4(6, 10, 10, 1));
+    texture.push(vec2(.5, .5));
+
+    points.push(vec4(-6, 0, 10, 1));
+    texture.push(vec2(.5,.5));
+    points.push(vec4(6, 10, 10, 1));
+    texture.push(vec2(0, 0));
+    points.push(vec4(6,0,10,1));
+    texture.push(vec2(0,.5));
+
+    points.push(vec4(-1, 3, .1, 1));
+    texture.push(vec2(.5,.5));
+    points.push(vec4(-1, 6, .1,1));
+    texture.push(vec2(.5,1));
+    points.push(vec4(1, 6, .1, 1));
+    texture.push(vec2(1,1));
+
+    points.push(vec4(-1, 3, .1, 1));
+    texture.push(vec2(.5,.5));
+    points.push(vec4(1, 6, .1,1));
+    texture.push(vec2(1,1));
+    points.push(vec4(1, 3, .1, 1));
+    texture.push(vec2(1, .5));
+
+    points.push(vec4(5.9, 3, 4, 1));
+    texture.push(vec2(.5, 0));
+    points.push(vec4(5.9, 7, 4, 1));
+    texture.push(vec2(.5, .5));
+    points.push(vec4(5.9, 7, 6, 1));
+    texture.push(vec2(1, .5));
+
+    points.push(vec4(5.9, 7, 6, 1));
+    texture.push(vec2(1, .5));
+    points.push(vec4(5.9, 3, 6, 1));
+    texture.push(vec2(1, 0));
+    points.push(vec4(5.9, 3, 4, 1));
+    texture.push(vec2(.5, 0));
+
 
 }
 
@@ -77,16 +136,7 @@ function configureTexture(image) {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 
         gl.RGBA, gl.UNSIGNED_BYTE, image);
     gl.generateMipmap( gl.TEXTURE_2D );
-     if(option == 0) //point sampling
-        {
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-        }
-        else if(option = 1) //mip map filtering
-        {
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        }
+
 }
 
 onload = function init()  {
@@ -128,10 +178,12 @@ onload = function init()  {
     document.getElementById("filtering").onclick = function(event) {
        switch(event.target.index){
         case 0:
-            option = 0;
-            break;
+             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
+             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+             break;
         case 1:
-            option = 1;
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             break;
        }
 
